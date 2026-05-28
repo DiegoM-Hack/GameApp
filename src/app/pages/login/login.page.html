@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-input
+      label="Correo"
+      type="email"
+      [(ngModel)]="email">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input
+      label="Contraseña"
+      type="password"
+      [(ngModel)]="password">
+    </ion-input>
+  </ion-item>
+
+  <ion-button
+    expand="block"
+    (click)="login()">
+
+    Iniciar Sesión
+
+  </ion-button>
+
+  <ion-button
+    expand="block"
+    fill="outline"
+    routerLink="/register">
+
+    Registrarse
+
+  </ion-button>
+
+</ion-content>
