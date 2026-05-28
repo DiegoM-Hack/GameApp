@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -14,3 +15,33 @@ export const routes: Routes = [
   },
 
 ];
+=======
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+
+  // Pantalla inicial
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+
+  // Página Home
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./pages/home/home.page')
+        .then(m => m.HomePage)
+  },
+
+  // Tabs
+  {
+    path: 'tabs',
+    loadChildren: () =>
+      import('./tabs/tabs.routes')
+        .then(m => m.routes),
+  }
+
+];
+>>>>>>> ec7277dc337d0671f529033ede0f0412a7fee402

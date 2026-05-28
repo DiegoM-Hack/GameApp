@@ -1,0 +1,23 @@
+<ion-content class="ion-padding">
+
+  <ion-card *ngFor="let game of games">
+
+    <ion-img
+      [src]="game.thumbnail">
+    </ion-img>
+
+    <ion-card-header>
+
+      <ion-card-title>
+        {{ game.title }}
+      </ion-card-title>
+
+      <p>
+        {{ game.genre }}
+      </p>
+
+    </ion-card-header>
+
+  </ion-card>
+
+</ion-content>
