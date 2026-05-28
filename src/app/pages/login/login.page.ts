@@ -31,31 +31,23 @@ export class LoginPage {
 
   async login() {
 
-    try {
+  try {
 
-      const { error } =
-        await this.supabaseService.login(
-          this.email,
-          this.password
-        );
+    await this.supabaseService.login(
+      this.email,
+      this.password
+    );
 
-      if (error) {
+    alert('Login correcto');
 
-        alert(error.message);
-        return;
+    this.router.navigate(['/home']);
 
-      }
+  } catch (err: any) {
 
-      alert('Login correcto');
-
-      this.router.navigate(['/home']);
-
-    } catch (err: any) {
-
-      alert(err.message);
-
-    }
+    alert(err.message);
 
   }
+
+}
 
 }

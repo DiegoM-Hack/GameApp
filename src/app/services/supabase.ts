@@ -10,19 +10,32 @@ export class SupabaseService {
   private supabase: SupabaseClient;
 
   constructor() {
+
     this.supabase = createClient(
       environment.supabaseUrl,
       environment.supabaseKey
     );
+
   }
 
   // LOGIN
-  async login(email: string, password: string) {
+  async login(
+    email: string,
+    password: string
+  ) {
 
-    return await this.supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    const { data, error } =
+      await this.supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if (error) {
+      console.log(error);
+      throw error;
+    }
+
+    return data;
   }
 
   // REGISTER
@@ -32,21 +45,52 @@ export class SupabaseService {
     password: string
   ) {
 
-    const { data, error } = await this.supabase.auth.signUp({
-      email,
-      password
-    });
+    // CREAR USUARIO
+    const { data, error } =
+      await this.supabase.auth.signUp({
+        email,
+        password
+      });
 
-    if (error) throw error;
+    console.log(data);
+    console.log(error);
 
-    // Guardar perfil adicional
-    if (data.user) {
+    // ERROR DE AUTH
+    if (error) {
+      throw error;
+    }
 
-      await this.saveProfile(
-        data.user.id,
-        nombre,
-        email
-      );
+    // VALIDAR USUARIO
+    if (!data.user) {
+      throw new Error('No se pudo crear el usuario');
+    }
+
+    // REVISAR SI EL PERFIL YA EXISTE
+    const { data: existingProfile } =
+      await this.supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', data.user.id)
+        .maybeSingle();
+
+    // SI NO EXISTE -> CREAR PERFIL
+    if (!existingProfile) {
+
+      const { error: profileError } =
+        await this.supabase
+          .from('profiles')
+          .insert({
+            id: data.user.id,
+            nombre,
+            email
+          });
+
+      console.log(profileError);
+
+      if (profileError) {
+        throw profileError;
+      }
+
     }
 
     return data;
@@ -55,7 +99,14 @@ export class SupabaseService {
   // LOGOUT
   async logout() {
 
-    return await this.supabase.auth.signOut();
+    const { error } =
+      await this.supabase.auth.signOut();
+
+    if (error) {
+      console.log(error);
+      throw error;
+    }
+
   }
 
   // GUARDAR PERFIL
@@ -65,19 +116,42 @@ export class SupabaseService {
     email: string
   ) {
 
-    return await this.supabase
-      .from('profiles')
-      .upsert({
-        id: userId,
-        nombre,
-        email
-      });
+    const { data, error } =
+      await this.supabase
+        .from('profiles')
+        .upsert(
+          {
+            id: userId,
+            nombre,
+            email
+          },
+          {
+            onConflict: 'id'
+          }
+        );
+
+    console.log(data);
+    console.log(error);
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   }
 
   // OBTENER USUARIO
   async getUser() {
 
-    return await this.supabase.auth.getUser();
+    const { data, error } =
+      await this.supabase.auth.getUser();
+
+    if (error) {
+      console.log(error);
+      throw error;
+    }
+
+    return data.user;
   }
 
 }

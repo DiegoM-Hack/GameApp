@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-import { Routes } from '@angular/router';
-
-export const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
-  },  {
-    path: 'login',
-    loadComponent: () => import('./pages/login/login.page').then( m => m.LoginPage)
-  },
-  {
-    path: 'register',
-    loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage)
-  },
-
-];
-=======
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -23,7 +5,7 @@ export const routes: Routes = [
   // Pantalla inicial
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
 
@@ -41,7 +23,16 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./tabs/tabs.routes')
         .then(m => m.routes),
+  },
+
+  {
+    path: 'login',
+    loadComponent: () => import('./pages/login/login.page').then( m => m.LoginPage)
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage)
   }
 
 ];
->>>>>>> ec7277dc337d0671f529033ede0f0412a7fee402
+
