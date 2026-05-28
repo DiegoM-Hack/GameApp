@@ -1,0 +1,7 @@
+{
+  "name": "GameApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
