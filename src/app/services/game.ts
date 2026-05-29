@@ -45,4 +45,13 @@ export class GameService {
     );
   }
 
+  searchGames(term: string) {
+
+  return this.http.get<any[]>(
+    `${this.api}/games`
+  );
+  }
+
+
+
 }
