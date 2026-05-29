@@ -1,8 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { Router, RouterModule } from '@angular/router';
+import {
+  IonicModule,
+  ToastController
+} from '@ionic/angular';
+
+import {
+  Router,
+  RouterModule
+} from '@angular/router';
 
 import { SupabaseService } from 'src/app/services/supabase';
 
@@ -26,28 +33,63 @@ export class LoginPage {
 
   constructor(
     private supabaseService: SupabaseService,
-    private router: Router
+    private router: Router,
+    private toastController: ToastController
   ) {}
 
-  async login() {
+  // TOAST FLOTANTE
+  async showToast(
+    message: string,
+    color: string = 'primary'
+  ) {
 
-  try {
+    const toast =
+      await this.toastController.create({
 
-    await this.supabaseService.login(
-      this.email,
-      this.password
-    );
+      message,
+      duration: 2500,
+      position: 'top',
+      color,
 
-    alert('Login correcto');
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel'
+        }
+      ]
 
-    this.router.navigate(['/home']);
+    });
 
-  } catch (err: any) {
-
-    alert(err.message);
+    await toast.present();
 
   }
 
-}
+  // LOGIN
+  async login() {
+
+    try {
+
+      await this.supabaseService.login(
+        this.email,
+        this.password
+      );
+
+      await this.showToast(
+        'Inicio de sesión correcto 🎮',
+        'success'
+      );
+
+      this.router.navigate(['/home']);
+
+    } catch (err: any) {
+
+      await this.showToast(
+        err.message,
+        'danger'
+      );
+
+    }
+
+  }
 
 }

@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Exo+2:wght@300;400;600&display=swap');
+
+// ── Variables ──────────────────────────────────────
+:host {
+  --bg:      #0a0a12;
+  --surface: #12121f;
+  --card:    #1a1a2e;
+  --neon:    #00f5ff;
+  --neon2:   #ff2d78;
+  --neon3:   #7b2fff;
+  --text:    #e8e8ff;
+  --muted:   #6a6a8a;
+  --border:  rgba(0, 245, 255, 0.15);
+}
+
+// ── Toolbar transparente ───────────────────────────
+.auth-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+}
+
+// ── Content ────────────────────────────────────────
+.auth-content {
+  --background: var(--bg);
+  font-family: 'Exo 2', sans-serif;
+  position: relative;
+}
+
+// ── Fondo animado ──────────────────────────────────
+.hero-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 300px;
+  background: linear-gradient(160deg, #1a0a2e 0%, #0a0a1a 60%);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+}
+.blob-1 {
+  width: 300px; height: 300px;
+  top: -80px; left: -80px;
+  background: radial-gradient(circle, rgba(123,47,255,0.28), transparent 70%);
+  animation: blobFloat 7s ease-in-out infinite alternate;
+}
+.blob-2 {
+  width: 260px; height: 260px;
+  top: 10px; right: -80px;
+  background: radial-gradient(circle, rgba(0,245,255,0.14), transparent 70%);
+  animation: blobFloat 9s ease-in-out infinite alternate-reverse;
+}
+@keyframes blobFloat {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(18px,18px) scale(1.07); }
+}
+
+// ── Logo ───────────────────────────────────────────
+.logo-area {
+  position: relative;
+  z-index: 2;
+  padding: 52px 24px 28px;
+  text-align: center;
+}
+
+.logo-icon {
+  font-size: 38px;
+  width: 70px; height: 70px;
+  background: linear-gradient(135deg, var(--neon3), var(--neon));
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  box-shadow:
+    0 0 24px rgba(0,245,255,0.45),
+    0 0 48px rgba(123,47,255,0.22);
+}
+
+.logo-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+
+  span { color: var(--neon); }
+}
+
+.logo-sub {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+// ── Card formulario ────────────────────────────────
+.form-card {
+  position: relative;
+  z-index: 2;
+  margin: 0 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 20px 32px;
+  box-shadow:
+    0 0 40px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.form-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 22px;
+  text-align: center;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neon3), var(--neon));
+    margin: 8px auto 0;
+    border-radius: 2px;
+  }
+}
+
+// ── Campos ─────────────────────────────────────────
+.field {
+  margin-bottom: 16px;
+}
+
+.field-label {
+  display: block;
+  font-size: 11px;
+  color: var(--neon);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: var(--neon);
+    box-shadow: 0 0 14px rgba(0,245,255,0.18);
+  }
+}
+
+.input-icon {
+  font-size: 18px;
+  color: var(--muted);
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.custom-input {
+  --color:             var(--text);
+  --placeholder-color: var(--muted);
+  --background:        transparent;
+  --padding-start:     0;
+  --padding-end:       0;
+  --padding-top:       14px;
+  --padding-bottom:    14px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 14px;
+  flex: 1;
+}
+
+// ── Botón principal ────────────────────────────────
+.btn-primary {
+  --background:         linear-gradient(135deg, #7b2fff 0%, #00f5ff 100%);
+  --background-activated: linear-gradient(135deg, #6620ee 0%, #00d4e0 100%);
+  --border-radius:      12px;
+  --color:              #fff;
+  --box-shadow:         0 0 20px rgba(0,245,255,0.25), 0 4px 16px rgba(0,0,0,0.4);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 20px 0 16px;
+  height: 50px;
+}
+
+// ── Divider ────────────────────────────────────────
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+
+  hr {
+    flex: 1;
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+  span {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+}
+
+// ── Botón outline ──────────────────────────────────
+.btn-outline {
+  --border-color:   var(--neon3);
+  --color:          var(--neon3);
+  --border-radius:  12px;
+  --background:     transparent;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  height: 48px;
+}
