@@ -31,7 +31,7 @@
     <div class="post-image-wrapper">
 
       <img
-        [src]="encuesta.imagen || 'assets/default.jpg'"
+        [src]="encuesta.imagen ? encuesta.imagen : 'https://ionicframework.com/docs/img/demos/thumbnail.svg'"
         class="post-image"
       />
 

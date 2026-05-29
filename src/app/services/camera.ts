@@ -23,7 +23,7 @@ export class PhotoService {
   public async addNewToGallery() {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
       source: CameraSource.Camera,
       quality: 100,
       saveToGallery: true,
@@ -43,7 +43,7 @@ export class PhotoService {
 
   const selectedPhoto = await Camera.getPhoto({
 
-    resultType: CameraResultType.Uri,
+    resultType: CameraResultType.Base64,
 
     source: CameraSource.Photos,
 
@@ -63,41 +63,57 @@ export class PhotoService {
 
 }
 
-  private async savePicture(photo: Photo) {
-    let base64Data: string | Blob;
+ private async savePicture(photo: Photo) {
 
-    // "hybrid" will detect Cordova or Capacitor
-    if (this.platform.is('hybrid')) {
-      // Read the file into base64 format
-      const file = await Filesystem.readFile({
-        path: photo.path!,
-      });
+  let base64Data: string;
 
-      base64Data = file.data;
-    } else {
-      // Fetch the photo, read as a blob, then convert to base64 format
-      const response = await fetch(photo.webPath!);
-      const blob = await response.blob();
+  // Si la cámara devuelve base64
+  if(photo.base64String) {
 
-      base64Data = (await this.convertBlobToBase64(blob)) as string;
-    }
+    base64Data = photo.base64String;
 
-    // Write the file to the data directory
-   const fileName = `Montaluisa_${Date.now()}.jpeg`;
+  } else {
 
-const savedFile = await Filesystem.writeFile({
-  path: fileName,
-  data: base64Data,
-  directory: Directory.Data,
-});
+    const response =
+      await fetch(photo.webPath!);
 
-const fileUri = savedFile.uri;
+    const blob =
+      await response.blob();
 
-return {
-  filepath: fileName,
-  webviewPath: Capacitor.convertFileSrc(fileUri),
-};
+    const converted =
+      await this.convertBlobToBase64(blob) as string;
+
+    // Quitamos el prefijo
+    base64Data =
+      converted.split(',')[1];
+
   }
+
+  const fileName =
+    `Montaluisa_${Date.now()}.jpeg`;
+
+  await Filesystem.writeFile({
+
+    path: fileName,
+
+    data: base64Data,
+
+    directory: Directory.Data
+
+  });
+
+  return {
+
+    filepath: fileName,
+
+    webviewPath:
+      `data:image/jpeg;base64,${base64Data}`,
+
+    base64String: base64Data
+
+  };
+
+}
 
   private convertBlobToBase64(blob: Blob) {
     return new Promise((resolve, reject) => {
@@ -134,5 +150,6 @@ return {
 export interface UserPhoto {
   filepath: string;
   webviewPath?: string;
+  base64String?: string;
 }
 
