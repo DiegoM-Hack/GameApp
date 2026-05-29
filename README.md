@@ -222,3 +222,5 @@ Crear una aplicación móvil para recopilar información sobre preferencias de v
 GitHub: https://github.com/DiegoM-Hack
 
 Repositorio: https://github.com/DiegoM-Hack/GameApp
+
+Link APK: https://github.com/DiegoM-Hack/GameApp/releases/tag/APK
