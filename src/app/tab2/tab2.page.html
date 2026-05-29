@@ -22,110 +22,90 @@
   <!-- Publicaciones -->
   <div class="posts-wrapper">
 
-    <div
-      class="post-card"
-      *ngFor="let encuesta of encuestas">
+  <!-- CARD -->
+  <div
+    class="post-card"
+    *ngFor="let survey of surveys">
 
-      <!-- Imagen -->
-      <div class="post-image-wrapper">
+    <!-- IMAGEN -->
+    <div class="post-image-wrapper">
 
-        <img
+      <img
+        [src]="survey.imagen || 'assets/default.jpg'"
+        class="post-image"
+      />
 
-          *ngIf="encuesta.imagen"
+      <div class="game-badge">
 
-          [src]="encuesta.imagen"
-
-          alt="Videojuego"
-
-          class="post-image"
-
-        />
-        <br> <br>
-        <div class="game-badge">
-          🎮
-          {{ encuesta.videojuego?.titulo }}
-
-        </div>
-
-      </div>
-
-      <!-- Body -->
-      <div class="post-body">
-
-        <!-- Usuario -->
-        <div class="user-row">
-
-          <div class="user-avatar">
-
-            <ion-icon
-              name="person-outline">
-            </ion-icon>
-
-          </div>
-
-          <div class="user-info">
-
-            <span class="user-name">
-
-              {{ encuesta.nombre }}
-
-            </span>
-
-            <span class="post-date">
-
-              {{ encuesta.fecha }}
-
-            </span>
-
-          </div>
-
-        </div>
-
-        <!-- Información -->
-        <div class="post-info">
-
-          <div class="info-item">
-
-            <ion-icon
-              name="location-outline">
-            </ion-icon>
-
-            <span>
-
-              {{ encuesta.latitud }},
-              {{ encuesta.longitud }}
-
-            </span>
-
-          </div>
-
-          <div class="info-item">
-
-            <ion-icon
-              name="game-controller-outline">
-            </ion-icon>
-
-            <span>
-
-              {{ encuesta.videojuego?.genero }}
-
-            </span>
-
-          </div>
-
-        </div>
-
-        <!-- Comentario -->
-        <p class="post-comment">
-
-          {{ encuesta.comentario }}
-
-        </p>
+        🎮
+        {{ survey.videojuego.titulo }}
 
       </div>
 
     </div>
 
+    <!-- BODY -->
+    <div class="post-body">
+
+      <!-- USER -->
+      <div class="user-row">
+
+        <div class="user-avatar">
+
+          <ion-icon
+            name="person-outline">
+          </ion-icon>
+
+        </div>
+
+        <div class="user-info">
+
+          <span class="user-name">
+
+            {{ survey.nombre }}
+
+          </span>
+
+          <span class="post-date">
+
+            {{ survey.fecha }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- INFO -->
+      <div class="post-info">
+
+        <div class="info-item">
+
+          <ion-icon
+            name="location-outline">
+          </ion-icon>
+
+          <span>
+
+            {{ survey.lugar || 'Campus' }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- COMENTARIO -->
+      <p class="post-comment">
+
+        {{ survey.comentario }}
+
+      </p>
+
+    </div>
+
   </div>
+
+</div>
 
 </ion-content>

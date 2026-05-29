@@ -18,6 +18,10 @@ import {
 
 } from 'firebase/storage';
 
+import {
+  getDocs
+} from 'firebase/firestore';
+
 import { environment }
 from 'src/environments/environment';
 
@@ -108,6 +112,41 @@ async getSurveys() {
       await getDownloadURL(storageRef);
 
     return imageUrl;
+
+  } catch(error) {
+
+    console.log(error);
+
+    throw error;
+
+  }
+
+  }
+
+  async getSurveys() {
+
+  try {
+
+    const querySnapshot =
+      await getDocs(
+        collection(this.db, 'encuestas')
+      );
+
+    const surveys: any[] = [];
+
+    querySnapshot.forEach((doc) => {
+
+      surveys.push({
+
+        id: doc.id,
+
+        ...doc.data()
+
+      });
+
+    });
+
+    return surveys;
 
   } catch(error) {
 

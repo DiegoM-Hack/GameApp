@@ -2,20 +2,26 @@ import { Component, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
+
 import {
+
   IonHeader,
   IonToolbar,
   IonTitle,
   IonContent,
   IonIcon
+
 } from '@ionic/angular/standalone';
 
 import { FirebaseService }
 from '../services/firebase';
 
 @Component({
+
   selector: 'app-tab2',
+
   templateUrl: 'tab2.page.html',
+
   styleUrls: ['tab2.page.scss'],
   standalone: true,
   imports: [
