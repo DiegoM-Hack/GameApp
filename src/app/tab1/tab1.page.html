@@ -24,7 +24,8 @@
     <ion-item class="custom-item">
       <ion-input
         label="Nombre o Alias"
-        labelPlacement="floating">
+        labelPlacement="floating"
+        [(ngModel)]="nombre">
       </ion-input>
     </ion-item>
 
@@ -32,7 +33,8 @@
     <ion-item class="custom-item">
       <ion-select
         label="Edad aproximada"
-        labelPlacement="floating">
+        labelPlacement="floating"
+        [(ngModel)]="edad">
 
         <ion-select-option value="10-15">
           10 - 15
@@ -57,7 +59,8 @@
     <ion-item class="custom-item">
       <ion-select
         label="Rol"
-        labelPlacement="floating">
+        labelPlacement="floating"
+        [(ngModel)]="rol">
 
         <ion-select-option value="estudiante">
           Estudiante
@@ -75,89 +78,132 @@
           Visitante
         </ion-select-option>
 
+
       </ion-select>
     </ion-item>
 
     <!-- VIDEOJUEGO -->
     <ion-item class="custom-item">
-      <ion-input
-        label="Videojuego Favorito"
-        labelPlacement="floating">
-      </ion-input>
-    </ion-item>
+  <ion-input
+    label="Videojuego Favorito">
+  </ion-input>
+</ion-item>
 
     <!-- PLATAFORMA -->
-    <ion-item class="custom-item">
-      <ion-select
-        label="Plataforma"
-        labelPlacement="floating">
+    <!-- BUSQUEDA -->
+<ion-item class="custom-item">
 
-        <ion-select-option value="movil">
-          Móvil
-        </ion-select-option>
+  <ion-input
+    label="Buscar Videojuego"
+    labelPlacement="floating"
+    [(ngModel)]="searchTerm"
+    (ionInput)="searchGame()">
+  </ion-input>
 
-        <ion-select-option value="consola">
-          Consola
-        </ion-select-option>
+</ion-item>
 
-        <ion-select-option value="pc">
-          PC
-        </ion-select-option>
+<!-- RESULTADOS -->
+<div
+  class="game-list"
+  *ngIf="filteredGames.length > 0">
 
-        <ion-select-option value="navegador">
-          Navegador
-        </ion-select-option>
+  <div
+    class="game-card"
+    *ngFor="let game of filteredGames"
+    (click)="selectGame(game)">
 
-      </ion-select>
-    </ion-item>
+    <img
+      [src]="game.thumbnail">
 
-    <!-- GENERO -->
-    <ion-item class="custom-item">
-      <ion-select
-        label="Género Favorito"
-        labelPlacement="floating">
+    <div>
 
-        <ion-select-option value="accion">
-          Acción
-        </ion-select-option>
+      <h3>
+        {{ game.title }}
+      </h3>
 
-        <ion-select-option value="aventura">
-          Aventura
-        </ion-select-option>
+      <p>
+        {{ game.genre }}
+      </p>
 
-        <ion-select-option value="deportes">
-          Deportes
-        </ion-select-option>
+    </div>
 
-        <ion-select-option value="estrategia">
-          Estrategia
-        </ion-select-option>
+  </div>
 
-        <ion-select-option value="rpg">
-          RPG
-        </ion-select-option>
+</div>
 
-        <ion-select-option value="terror">
-          Terror
-        </ion-select-option>
+<div
+  class="selected-game"
+  *ngIf="selectedGame">
 
-        <ion-select-option value="simulacion">
-          Simulación
-        </ion-select-option>
+  <img
+    [src]="selectedGame.thumbnail">
 
-        <ion-select-option value="otro">
-          Otro
-        </ion-select-option>
+  <h2>
+    {{ selectedGame.title }}
+  </h2>
 
-      </ion-select>
-    </ion-item>
+  <p>
+    {{ selectedGame.genre }}
+  </p>
+
+  <p>
+    {{ selectedGame.platform }}
+  </p>
+
+  <p>
+    {{ selectedGame.short_description }}
+  </p>
+
+</div>
+
+
+    <!-- FOTO -->
+<div class="photo-section">
+
+  <h2>
+    Imagen de tu setup o juego
+  </h2>
+
+  <div class="photo-buttons">
+
+    <ion-button
+      color="primary"
+      (click)="takePhoto()">
+
+      Tomar Foto
+
+    </ion-button>
+
+    <ion-button
+      color="secondary"
+      (click)="selectPhoto()">
+
+      Galería
+
+    </ion-button>
+
+  </div>
+
+  <!-- PREVIEW -->
+  <div
+    class="photo-preview"
+    *ngIf="selectedPhoto">
+
+    <img
+      [src]="selectedPhoto">
+
+  </div>
+
+</div>
 
     <!-- COMENTARIO -->
     <ion-item class="custom-item textarea-item">
       <ion-textarea
         label="Comentario"
         labelPlacement="floating"
-        rows="5">
+        rows="5"
+        maxlength="500"
+        [(ngModel)]="comentario">
       </ion-textarea>
     </ion-item>
 

@@ -8,6 +8,15 @@ import {
   addDoc
 } from 'firebase/firestore';
 
+import {
+
+  getStorage,
+  ref,
+  uploadString,
+  getDownloadURL
+
+} from 'firebase/storage';
+
 import { environment }
 from 'src/environments/environment';
 
@@ -21,6 +30,8 @@ export class FirebaseService {
   );
 
   private db = getFirestore(this.app);
+  private storage =
+  getStorage(this.app);
 
   constructor() {}
 
@@ -50,5 +61,40 @@ export class FirebaseService {
     }
 
   }
+
+  async uploadImage(imageBase64: string) {
+
+  try {
+
+    const fileName =
+      `encuestas/${Date.now()}.jpg`;
+
+    const storageRef =
+      ref(this.storage, fileName);
+
+    await uploadString(
+
+      storageRef,
+
+      imageBase64,
+
+      'data_url'
+
+    );
+
+    const imageUrl =
+      await getDownloadURL(storageRef);
+
+    return imageUrl;
+
+  } catch(error) {
+
+    console.log(error);
+
+    throw error;
+
+  }
+
+}
 
 }
