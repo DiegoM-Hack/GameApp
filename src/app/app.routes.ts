@@ -5,7 +5,7 @@ export const routes: Routes = [
   // Pantalla inicial
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
 

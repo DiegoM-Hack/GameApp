@@ -1,17 +1,177 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar class="toolbar-custom">
     <ion-title>
-      Tab 1
+      Game Survey
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="gaming-content">
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <div class="banner">
+
+    <h1>Encuesta Gamer</h1>
+
+    <p>
+      Comparte tus gustos sobre videojuegos
+    </p>
+
+  </div>
+
+  <div class="form-container">
+
+    <!-- NOMBRE -->
+    <ion-item class="custom-item">
+      <ion-input
+        label="Nombre o Alias"
+        labelPlacement="floating">
+      </ion-input>
+    </ion-item>
+
+    <!-- EDAD -->
+    <ion-item class="custom-item">
+      <ion-select
+        label="Edad aproximada"
+        labelPlacement="floating">
+
+        <ion-select-option value="10-15">
+          10 - 15
+        </ion-select-option>
+
+        <ion-select-option value="16-20">
+          16 - 20
+        </ion-select-option>
+
+        <ion-select-option value="21-25">
+          21 - 25
+        </ion-select-option>
+
+        <ion-select-option value="26+">
+          26+
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+
+    <!-- ROL -->
+    <ion-item class="custom-item">
+      <ion-select
+        label="Rol"
+        labelPlacement="floating">
+
+        <ion-select-option value="estudiante">
+          Estudiante
+        </ion-select-option>
+
+        <ion-select-option value="docente">
+          Docente
+        </ion-select-option>
+
+        <ion-select-option value="administrativo">
+          Administrativo
+        </ion-select-option>
+
+        <ion-select-option value="visitante">
+          Visitante
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+
+    <!-- VIDEOJUEGO -->
+    <ion-item class="custom-item">
+      <ion-input
+        label="Videojuego Favorito"
+        labelPlacement="floating">
+      </ion-input>
+    </ion-item>
+
+    <!-- PLATAFORMA -->
+    <ion-item class="custom-item">
+      <ion-select
+        label="Plataforma"
+        labelPlacement="floating">
+
+        <ion-select-option value="movil">
+          Móvil
+        </ion-select-option>
+
+        <ion-select-option value="consola">
+          Consola
+        </ion-select-option>
+
+        <ion-select-option value="pc">
+          PC
+        </ion-select-option>
+
+        <ion-select-option value="navegador">
+          Navegador
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+
+    <!-- GENERO -->
+    <ion-item class="custom-item">
+      <ion-select
+        label="Género Favorito"
+        labelPlacement="floating">
+
+        <ion-select-option value="accion">
+          Acción
+        </ion-select-option>
+
+        <ion-select-option value="aventura">
+          Aventura
+        </ion-select-option>
+
+        <ion-select-option value="deportes">
+          Deportes
+        </ion-select-option>
+
+        <ion-select-option value="estrategia">
+          Estrategia
+        </ion-select-option>
+
+        <ion-select-option value="rpg">
+          RPG
+        </ion-select-option>
+
+        <ion-select-option value="terror">
+          Terror
+        </ion-select-option>
+
+        <ion-select-option value="simulacion">
+          Simulación
+        </ion-select-option>
+
+        <ion-select-option value="otro">
+          Otro
+        </ion-select-option>
+
+      </ion-select>
+    </ion-item>
+
+    <!-- COMENTARIO -->
+    <ion-item class="custom-item textarea-item">
+      <ion-textarea
+        label="Comentario"
+        labelPlacement="floating"
+        rows="5">
+      </ion-textarea>
+    </ion-item>
+
+    <!-- BOTON -->
+    <ion-button
+      expand="block"
+      (click)="guardarEncuesta()"
+      class="gaming-button">
+
+      Registrar Encuesta
+
+    </ion-button>
+
+
+  </div>
+
 </ion-content>

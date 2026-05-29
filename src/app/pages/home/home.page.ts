@@ -6,10 +6,12 @@ import {
   IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonImg
+  IonImg,
+  IonButton
 } from '@ionic/angular/standalone';
 
 import { GameService } from '../../services/game';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +23,8 @@ import { GameService } from '../../services/game';
     IonCard,
     IonCardHeader,
     IonCardTitle,
-    IonImg
+    IonImg,
+    IonButton
   ]
 })
 export class HomePage implements OnInit {
@@ -29,7 +32,7 @@ export class HomePage implements OnInit {
   games: any[] = [];
 
   constructor(
-    private gameService: GameService
+    private gameService: GameService, private router: Router
   ) {}
 
   ngOnInit() {
@@ -49,6 +52,12 @@ export class HomePage implements OnInit {
 
       });
 
+  }
+
+  //Funcion para ir a tabs
+  goToTabs() {
+
+    this.router.navigateByUrl('/tabs');
   }
 
 }

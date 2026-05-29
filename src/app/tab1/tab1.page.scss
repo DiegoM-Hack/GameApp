@@ -1,0 +1,114 @@
+.gaming-content {
+
+  --background:
+    linear-gradient(
+      180deg,
+      #0f172a 0%,
+      #111827 50%,
+      #020617 100%
+    );
+
+  color: white;
+}
+
+.toolbar-custom {
+
+  --background: #111827;
+  --color: #00f5ff;
+
+  border-bottom: 1px solid #00f5ff33;
+}
+
+.banner {
+
+  text-align: center;
+
+  padding: 30px 20px;
+
+  h1 {
+
+    font-size: 2rem;
+    font-weight: bold;
+
+    color: #00f5ff;
+
+    text-shadow:
+      0 0 10px #00f5ff,
+      0 0 20px #00f5ff;
+
+    margin-bottom: 10px;
+  }
+
+  p {
+
+    color: #94a3b8;
+    font-size: 0.95rem;
+  }
+}
+
+.form-container {
+
+  padding: 20px;
+}
+
+.custom-item {
+
+  --background: #1e293b;
+
+  --border-radius: 18px;
+
+  margin-bottom: 18px;
+
+  border-radius: 18px;
+
+  --color: white;
+
+  --highlight-color-focused: #00f5ff;
+
+  border:
+    1px solid rgba(0, 245, 255, 0.2);
+
+  box-shadow:
+    0 0 12px rgba(0, 245, 255, 0.08);
+}
+
+.textarea-item {
+
+  align-items: flex-start;
+}
+
+ion-input,
+ion-select,
+ion-textarea {
+
+  color: white;
+}
+
+.gaming-button {
+
+  margin-top: 25px;
+
+  --background:
+    linear-gradient(
+      90deg,
+      #06b6d4,
+      #3b82f6
+    );
+
+  --border-radius: 18px;
+
+  height: 52px;
+
+  font-size: 1rem;
+  font-weight: bold;
+
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.gaming-button:hover {
+
+  transform: scale(1.02);
+}
