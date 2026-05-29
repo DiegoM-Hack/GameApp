@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 import { SupabaseService } from 'src/app/services/supabase';
 
@@ -15,7 +16,8 @@ import { SupabaseService } from 'src/app/services/supabase';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    IonicModule,
+    RouterModule
   ]
 })
 export class RegisterPage {
@@ -26,8 +28,31 @@ export class RegisterPage {
 
   constructor(
     private supabaseService: SupabaseService,
-    private router: Router
+    private router: Router,
+    private toastController: ToastController
   ) {}
+
+  async showToast(
+  message: string,
+  color: string = 'primary'
+) {
+
+  const toast = await this.toastController.create({
+    message,
+    duration: 2500,
+    position: 'top',
+    color,
+    buttons: [
+      {
+        text: 'OK',
+        role: 'cancel'
+      }
+    ]
+  });
+
+  await toast.present();
+
+}
 
   async register() {
 
@@ -39,13 +64,19 @@ export class RegisterPage {
         this.password
       );
 
-      alert('Usuario registrado');
+      await this.showToast(
+        'Usuario registrado correctamente ',
+        'success'
+      );
 
       this.router.navigate(['/login']);
 
     } catch (err: any) {
 
-      alert(err.message);
+      await this.showToast(
+        err.message,
+        'danger'
+      );
 
     }
 

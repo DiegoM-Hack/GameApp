@@ -1,40 +1,91 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Registro</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="auth-toolbar">
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="auth-content">
 
-  <ion-item>
-    <ion-input
-      label="Nombre"
-      [(ngModel)]="nombre">
-    </ion-input>
-  </ion-item>
+  <!-- Fondo decorativo -->
+  <div class="hero-bg">
+    <div class="grid-lines"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
 
-  <ion-item>
-    <ion-input
-      label="Correo"
-      type="email"
-      [(ngModel)]="email">
-    </ion-input>
-  </ion-item>
+  <!-- Logo -->
+  <div class="logo-area">
+    <div class="logo-icon">🎮</div>
+    <h1 class="logo-title">Game<span>Survey</span></h1>
+    <p class="logo-sub">Crea tu cuenta gamer</p>
+  </div>
 
-  <ion-item>
-    <ion-input
-      label="Contraseña"
-      type="password"
-      [(ngModel)]="password">
-    </ion-input>
-  </ion-item>
+  <!-- Card del formulario -->
+  <div class="form-card">
 
-  <ion-button
-    expand="block"
-    (click)="register()">
+    <h2 class="form-title">Registro</h2>
 
-    Crear Cuenta
+    <!-- Nombre -->
+    <div class="field">
+      <label class="field-label">Nombre</label>
+      <div class="input-wrapper">
+        <ion-icon name="person-outline" class="input-icon"></ion-icon>
+        <ion-input
+          placeholder="Tu nombre o alias"
+          [(ngModel)]="nombre"
+          class="custom-input">
+        </ion-input>
+      </div>
+    </div>
 
-  </ion-button>
+    <!-- Correo -->
+    <div class="field">
+      <label class="field-label">Correo electrónico</label>
+      <div class="input-wrapper">
+        <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+        <ion-input
+          type="email"
+          placeholder="gamer@esfot.edu.ec"
+          [(ngModel)]="email"
+          class="custom-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Contraseña -->
+    <div class="field">
+      <label class="field-label">Contraseña</label>
+      <div class="input-wrapper">
+        <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+        <ion-input
+          type="password"
+          placeholder="Mínimo 6 caracteres"
+          [(ngModel)]="password"
+          class="custom-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Botón registro -->
+    <ion-button
+      expand="block"
+      class="btn-primary"
+      (click)="register()">
+       &nbsp;Crear Cuenta
+    </ion-button>
+
+    <!-- Volver al login -->
+    <div class="divider">
+      <hr/><span>¿Ya tienes cuenta?</span><hr/>
+    </div>
+
+    <ion-button
+      expand="block"
+      fill="outline"
+      class="btn-outline"
+      routerLink="/login">
+      Iniciar Sesión
+    </ion-button>
+
+  </div>
 
 </ion-content>
