@@ -32,6 +32,10 @@ export const routes: Routes = [
   {
     path: 'register',
     loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage)
+  },
+  {
+    path: 'tab4',
+    loadComponent: () => import('./tab4/tab4.page').then( m => m.Tab4Page)
   }
 
 ];

@@ -1,0 +1,122 @@
+<ion-header class="ion-no-border">
+
+  <ion-toolbar class="dashboard-toolbar">
+
+    <ion-title class="dashboard-title">
+      Tablero de visualización
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="dashboard-content">
+
+  <!-- Fondo -->
+  <div class="hero-bg">
+
+    <div class="grid-lines"></div>
+
+    <div class="blob blob-1"></div>
+
+    <div class="blob blob-2"></div>
+
+  </div>
+
+  <!-- Estadísticas -->
+  <div class="stats-grid">
+
+    <!-- Encuestas -->
+    <div class="stat-card">
+
+      <ion-icon
+        name="document-text-outline">
+      </ion-icon>
+
+      <h2>
+        {{ totalEncuestas }}
+      </h2>
+
+      <p>
+        Encuestas
+      </p>
+
+    </div>
+
+    <!-- Comentarios -->
+    <div class="stat-card">
+
+      <ion-icon
+        name="chatbubble-outline">
+      </ion-icon>
+
+      <h2>
+        {{ totalComentarios }}
+      </h2>
+
+      <p>
+        Comentarios
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Juegos -->
+  <div class="games-card">
+
+    <h3>
+      Juegos Registrados
+    </h3>
+
+    <div class="games-list">
+
+      <div
+        class="game-item"
+        *ngFor="let juego of juegos">
+
+        🎮 {{ juego }}
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Últimas publicaciones -->
+  <div class="feed-section">
+
+    <h3>
+      Últimas Encuestas
+    </h3>
+
+    <div
+      class="feed-card"
+      *ngFor="let encuesta of encuestas">
+
+      <img
+        *ngIf="encuesta.imagen"
+        [src]="encuesta.imagen"
+        class="feed-img">
+
+      <div class="feed-body">
+
+        <h4>
+          {{ encuesta.videojuego?.titulo }}
+        </h4>
+
+        <span>
+          {{ encuesta.nombre }}
+        </span>
+
+        <p>
+          {{ encuesta.comentario }}
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>
