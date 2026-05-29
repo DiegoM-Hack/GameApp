@@ -109,6 +109,13 @@
   text-transform: uppercase;
 }
 
+.logo-description {
+  font-size: 16px;
+  color: var(--muted);
+  margin-top: 20px;
+  line-height: 1.4;
+}
+
 // ── Card formulario ────────────────────────────────
 .form-card {
   position: relative;
