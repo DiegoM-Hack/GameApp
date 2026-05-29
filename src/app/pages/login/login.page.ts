@@ -79,7 +79,7 @@ export class LoginPage {
         'success'
       );
 
-      this.router.navigate(['']);
+      this.router.navigate(['/tabs/tab1']);
 
     } catch (err: any) {
 
