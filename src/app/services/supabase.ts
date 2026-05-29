@@ -1,6 +1,7 @@
   import { Injectable } from '@angular/core';
   import { createClient, SupabaseClient } from '@supabase/supabase-js';
   import { environment } from '../../environments/environment';
+  import { Preferences } from '@capacitor/preferences';
 
   @Injectable({
     providedIn: 'root'
