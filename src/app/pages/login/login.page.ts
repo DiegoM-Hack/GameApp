@@ -79,7 +79,7 @@ export class LoginPage {
         'success'
       );
 
-      this.router.navigate(['/home']);
+      this.router.navigate(['']);
 
     } catch (err: any) {
 

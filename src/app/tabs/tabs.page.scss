@@ -1,1 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Exo+2:wght@400;600&display=swap');
 
+.gaming-tab-bar {
+  --background:   #0e0e1a;
+  --border-color: rgba(0, 245, 255, 0.12);
+  border-top: 1px solid rgba(0, 245, 255, 0.12);
+  padding: 6px 0 4px;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.tab-btn {
+  --color:          #6a6a8a;
+  --color-selected: #00f5ff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+
+  ion-icon {
+    font-size: 22px;
+    transition: transform 0.2s, filter 0.2s;
+  }
+
+  ion-label {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    margin-top: 2px;
+  }
+
+  // Tab activa
+  &.tab-selected {
+    ion-icon {
+      filter: drop-shadow(0 0 6px #00f5ff);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Línea neon en el tab activo
+.tab-btn.tab-selected::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 2px;
+  background: linear-gradient(90deg, #7b2fff, #00f5ff);
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 0 8px rgba(0, 245, 255, 0.6);
+}

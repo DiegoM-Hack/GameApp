@@ -1,157 +1,199 @@
-import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { environment } from '../../environments/environment';
+  import { Injectable } from '@angular/core';
+  import { createClient, SupabaseClient } from '@supabase/supabase-js';
+  import { environment } from '../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class SupabaseService {
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SupabaseService {
 
-  private supabase: SupabaseClient;
+    private supabase: SupabaseClient;
 
-  constructor() {
+    constructor() {
 
-    this.supabase = createClient(
-      environment.supabaseUrl,
-      environment.supabaseKey
-    );
+      this.supabase = createClient(
+        environment.supabaseUrl,
+        environment.supabaseKey
+      );
 
-  }
+    }
 
-  // LOGIN
-  async login(
-    email: string,
-    password: string
-  ) {
+    // LOGIN
+    async login(
+      email: string,
+      password: string
+    ) {
 
-    const { data, error } =
-      await this.supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+      const { data, error } =
+        await this.supabase.auth.signInWithPassword({
+          email,
+          password
+        });
 
-    if (error) {
+      if (error) {
+        console.log(error);
+        throw error;
+      }
+
+      return data;
+    }
+
+    // REGISTER
+    async register(
+      nombre: string,
+      email: string,
+      password: string
+    ) {
+
+      // CREAR USUARIO
+      const { data, error } =
+        await this.supabase.auth.signUp({
+          email,
+          password
+        });
+
+      console.log(data);
       console.log(error);
-      throw error;
-    }
 
-    return data;
-  }
+      // ERROR DE AUTH
+      if (error) {
+        throw error;
+      }
 
-  // REGISTER
-  async register(
-    nombre: string,
-    email: string,
-    password: string
-  ) {
+      // VALIDAR USUARIO
+      if (!data.user) {
+        throw new Error('No se pudo crear el usuario');
+      }
 
-    // CREAR USUARIO
-    const { data, error } =
-      await this.supabase.auth.signUp({
-        email,
-        password
-      });
-
-    console.log(data);
-    console.log(error);
-
-    // ERROR DE AUTH
-    if (error) {
-      throw error;
-    }
-
-    // VALIDAR USUARIO
-    if (!data.user) {
-      throw new Error('No se pudo crear el usuario');
-    }
-
-    // REVISAR SI EL PERFIL YA EXISTE
-    const { data: existingProfile } =
-      await this.supabase
-        .from('profiles')
-        .select('id')
-        .eq('id', data.user.id)
-        .maybeSingle();
-
-    // SI NO EXISTE -> CREAR PERFIL
-    if (!existingProfile) {
-
-      const { error: profileError } =
+      // REVISAR SI EL PERFIL YA EXISTE
+      const { data: existingProfile } =
         await this.supabase
           .from('profiles')
-          .insert({
-            id: data.user.id,
-            nombre,
-            email
-          });
+          .select('id')
+          .eq('id', data.user.id)
+          .maybeSingle();
 
-      console.log(profileError);
+      // SI NO EXISTE -> CREAR PERFIL
+      if (!existingProfile) {
 
-      if (profileError) {
-        throw profileError;
+        const { error: profileError } =
+          await this.supabase
+            .from('profiles')
+            .insert({
+              id: data.user.id,
+              nombre,
+              email
+            });
+
+        console.log(profileError);
+
+        if (profileError) {
+          throw profileError;
+        }
+
+      }
+
+      return data;
+    }
+
+    // LOGOUT
+    async logout() {
+
+      const { error } =
+        await this.supabase.auth.signOut();
+
+      if (error) {
+        console.log(error);
+        throw error;
       }
 
     }
 
-    return data;
-  }
+    // GUARDAR PERFIL
+    async saveProfile(
+      userId: string,
+      nombre: string,
+      email: string
+    ) {
 
-  // LOGOUT
-  async logout() {
+      const { data, error } =
+        await this.supabase
+          .from('profiles')
+          .upsert(
+            {
+              id: userId,
+              nombre,
+              email
+            },
+            {
+              onConflict: 'id'
+            }
+          );
 
-    const { error } =
-      await this.supabase.auth.signOut();
-
-    if (error) {
+      console.log(data);
       console.log(error);
-      throw error;
+
+      if (error) {
+        throw error;
+      }
+
+      return data;
     }
 
+    // OBTENER USUARIO
+    async getUser() {
+
+      const { data, error } =
+        await this.supabase.auth.getUser();
+
+      if (error) {
+        console.log(error);
+        throw error;
+      }
+
+      return data.user;
+    }
+
+    // OBTENER PERFIL
+  async getProfile(userId: string) {
+    return await this.supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .maybeSingle();
   }
+  // SUBIR AVATAR A STORAGE
+  async uploadAvatar(userId: string, file: File): Promise<string> {
 
-  // GUARDAR PERFIL
-  async saveProfile(
-    userId: string,
-    nombre: string,
-    email: string
-  ) {
+    const ext = file.name.split('.').pop();
+    const filePath = `${userId}/avatar.${ext}`;
 
-    const { data, error } =
+    // Subir al bucket "avatars"
+    const { error: uploadError } =
+      await this.supabase.storage
+        .from('avatars')
+        .upload(filePath, file, {
+          upsert: true   // reemplaza si ya existe
+        });
+
+    if (uploadError) throw uploadError;
+
+    // Obtener URL pública
+    const { data } = this.supabase.storage
+      .from('avatars')
+      .getPublicUrl(filePath);
+
+    const publicUrl = data.publicUrl;
+
+    // Guardar la URL en la tabla profiles
+    const { error: updateError } =
       await this.supabase
         .from('profiles')
-        .upsert(
-          {
-            id: userId,
-            nombre,
-            email
-          },
-          {
-            onConflict: 'id'
-          }
-        );
+        .update({ avatar_url: publicUrl })
+        .eq('id', userId);
 
-    console.log(data);
-    console.log(error);
+    if (updateError) throw updateError;
 
-    if (error) {
-      throw error;
-    }
-
-    return data;
+    return publicUrl;
   }
-
-  // OBTENER USUARIO
-  async getUser() {
-
-    const { data, error } =
-      await this.supabase.auth.getUser();
-
-    if (error) {
-      console.log(error);
-      throw error;
-    }
-
-    return data.user;
   }
-
-}

@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Exo+2:wght@300;400;600&display=swap');
+
+:host {
+  --bg:      #0a0a12;
+  --surface: #12121f;
+  --card:    #1a1a2e;
+  --neon:    #00f5ff;
+  --neon2:   #ff2d78;
+  --neon3:   #7b2fff;
+  --text:    #e8e8ff;
+  --muted:   #6a6a8a;
+  --border:  rgba(0, 245, 255, 0.15);
+}
+
+// ── Toolbar ────────────────────────────────────────
+.profile-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+}
+
+.profile-toolbar-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.logout-btn {
+  --color: var(--neon2);
+  font-size: 20px;
+}
+
+// ── Content ────────────────────────────────────────
+.profile-content {
+  --background: var(--bg);
+  font-family: 'Exo 2', sans-serif;
+  position: relative;
+}
+
+// ── Fondo animado ──────────────────────────────────
+.hero-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 280px;
+  background: linear-gradient(160deg, #1a0a2e 0%, #0a0a1a 60%);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+}
+.blob-1 {
+  width: 300px; height: 300px;
+  top: -80px; left: -80px;
+  background: radial-gradient(circle, rgba(123,47,255,0.25), transparent 70%);
+  animation: blobFloat 7s ease-in-out infinite alternate;
+}
+.blob-2 {
+  width: 260px; height: 260px;
+  top: 10px; right: -80px;
+  background: radial-gradient(circle, rgba(0,245,255,0.12), transparent 70%);
+  animation: blobFloat 9s ease-in-out infinite alternate-reverse;
+}
+@keyframes blobFloat {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(16px,16px) scale(1.06); }
+}
+
+// ── Loading ────────────────────────────────────────
+.loading-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+
+  p {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+}
+
+.neon-spinner {
+  --color: var(--neon);
+  width: 40px;
+  height: 40px;
+}
+
+// ── Avatar section ─────────────────────────────────
+.avatar-section {
+  position: relative;
+  z-index: 2;
+  padding: 48px 24px 28px;
+  text-align: center;
+}
+
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.avatar-img,
+.avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.avatar-img {
+  object-fit: cover;
+  border: 2px solid var(--neon);
+}
+
+.avatar-placeholder {
+  background: var(--card);
+  border: 2px solid var(--border);
+
+  ion-icon {
+    font-size: 42px;
+    color: var(--muted);
+  }
+}
+
+.avatar-ring {
+  position: absolute;
+  top: -6px; left: -6px;
+  right: -6px; bottom: -6px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(135deg, var(--neon3), var(--neon)) border-box;
+  z-index: 1;
+  animation: ringPulse 3s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.04); }
+}
+
+.avatar-edit-badge {
+  position: absolute;
+  bottom: 2px; right: 2px;
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--neon3), var(--neon));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  box-shadow: 0 0 10px rgba(0,245,255,0.4);
+
+  ion-icon { font-size: 14px; color: #fff; }
+}
+
+.profile-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+
+.profile-badge {
+  font-size: 12px;
+  color: var(--neon);
+  background: rgba(0,245,255,0.08);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 14px;
+  letter-spacing: 1px;
+}
+
+// ── Info card ──────────────────────────────────────
+.info-card {
+  position: relative;
+  z-index: 2;
+  margin: 0 16px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px 20px;
+  box-shadow:
+    0 0 40px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.card-section-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 18px;
+
+  ion-icon { font-size: 16px; color: var(--neon3); }
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+}
+
+.info-icon-wrap {
+  width: 36px; height: 36px;
+  background: rgba(0,245,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon { font-size: 17px; color: var(--neon); }
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.info-label {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.info-value {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-active {
+  color: #00e676;
+  font-size: 13px;
+}
+
+.info-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 4px;
+}
+
+// ── Botones acción ─────────────────────────────────
+.action-area {
+  position: relative;
+  z-index: 2;
+  padding: 0 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-upload {
+  --background:           linear-gradient(135deg, #7b2fff 0%, #00f5ff 100%);
+  --background-activated: linear-gradient(135deg, #6620ee 0%, #00d4e0 100%);
+  --border-radius:        12px;
+  --color:                #fff;
+  --box-shadow:           0 0 20px rgba(0,245,255,0.2), 0 4px 16px rgba(0,0,0,0.4);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  height: 50px;
+}
+
+.btn-logout {
+  --border-color:  var(--neon2);
+  --color:         var(--neon2);
+  --border-radius: 12px;
+  --background:    transparent;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  height: 48px;
+}

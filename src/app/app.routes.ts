@@ -10,12 +10,12 @@ export const routes: Routes = [
   },
 
   // Página Home
-  {
+  /* {
     path: 'home',
     loadComponent: () =>
       import('./pages/home/home.page')
         .then(m => m.HomePage)
-  },
+  }, */
 
   // Tabs
   {
