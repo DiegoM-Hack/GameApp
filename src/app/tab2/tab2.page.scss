@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Exo+2:wght@300;400;600&display=swap');
+
+:host {
+  --bg:      #0a0a12;
+  --surface: #12121f;
+  --card:    #1a1a2e;
+  --neon:    #00f5ff;
+  --neon2:   #ff2d78;
+  --neon3:   #7b2fff;
+  --text:    #e8e8ff;
+  --muted:   #6a6a8a;
+  --border:  rgba(0, 245, 255, 0.15);
+}
+
+// ── Toolbar ─────────────────────────────
+.posts-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+}
+
+.posts-toolbar-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+// ── Content ─────────────────────────────
+.posts-content {
+  --background: var(--bg);
+  font-family: 'Exo 2', sans-serif;
+  position: relative;
+}
+
+// ── Fondo ───────────────────────────────
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background: linear-gradient(160deg, #1a0a2e 0%, #0a0a1a 60%);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+}
+
+.blob-1 {
+  width: 300px;
+  height: 300px;
+  top: -80px;
+  left: -80px;
+  background: radial-gradient(circle, rgba(123,47,255,0.25), transparent 70%);
+  animation: blobFloat 7s ease-in-out infinite alternate;
+}
+
+.blob-2 {
+  width: 260px;
+  height: 260px;
+  top: 10px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(0,245,255,0.12), transparent 70%);
+  animation: blobFloat 9s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes blobFloat {
+  from {
+    transform: translate(0,0) scale(1);
+  }
+
+  to {
+    transform: translate(16px,16px) scale(1.06);
+  }
+}
+
+// ── Wrapper ─────────────────────────────
+.posts-wrapper {
+  position: relative;
+  z-index: 2;
+  padding: 20px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+// ── Card ────────────────────────────────
+.post-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow:
+    0 0 40px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+}
+
+// ── Imagen ──────────────────────────────
+.post-image-wrapper {
+  position: relative;
+}
+
+.post-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.game-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(10,10,18,0.75);
+  border: 1px solid var(--border);
+  color: var(--neon);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  letter-spacing: 1px;
+}
+
+// ── Body ────────────────────────────────
+.post-body {
+  padding: 18px;
+}
+
+// ── Usuario ─────────────────────────────
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(0,245,255,0.06);
+  border: 1px solid var(--border);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 22px;
+    color: var(--neon);
+  }
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+
+.post-date {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+// ── Información ─────────────────────────
+.post-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+
+  padding: 8px 12px;
+  border-radius: 12px;
+
+  ion-icon {
+    color: var(--neon3);
+    font-size: 16px;
+  }
+
+  span {
+    color: var(--text);
+    font-size: 13px;
+  }
+}
+
+// ── Comentario ──────────────────────────
+.post-comment {
+  color: #cfcff5;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
