@@ -33,11 +33,15 @@
       <div class="input-wrapper">
         <ion-icon name="mail-outline" class="input-icon"></ion-icon>
         <ion-input
-          type="email"
-          placeholder="gamer@esfot.edu.ec"
-          [(ngModel)]="email"
-          class="custom-input">
-        </ion-input>
+  type="email"
+  placeholder="gamer@esfot.edu.ec"
+  [(ngModel)]="email"
+  class="custom-input"
+  autocomplete="off"
+  autocorrect="off"
+  spellcheck="false"
+  inputmode="email">
+</ion-input>
       </div>
     </div>
 
@@ -47,11 +51,14 @@
       <div class="input-wrapper">
         <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
         <ion-input
-          type="password"
-          placeholder="••••••••"
-          [(ngModel)]="password"
-          class="custom-input">
-        </ion-input>
+  type="password"
+  placeholder="••••••••"
+  [(ngModel)]="password"
+  class="custom-input"
+  autocomplete="new-password"
+  autocorrect="off"
+  spellcheck="false">
+</ion-input>
       </div>
     </div>
 

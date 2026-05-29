@@ -10,6 +10,9 @@ import {
   Router,
   RouterModule
 } from '@angular/router';
+import { Keyboard }
+from '@capacitor/keyboard';
+import { OnInit } from '@angular/core';
 
 import { SupabaseService } from 'src/app/services/supabase';
 
@@ -26,7 +29,7 @@ import { SupabaseService } from 'src/app/services/supabase';
     RouterModule
   ]
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
 
   email = '';
   password = '';
@@ -90,6 +93,32 @@ export class LoginPage {
 
     }
 
+     try {
+
+    const result =
+      await this.supabaseService.login(
+        this.email,
+        this.password
+      );
+
+    console.log(result);
+
+  } catch(error) {
+
+    console.log(error);
+
   }
+
+  }
+
+  ngOnInit() {
+
+  Keyboard.setAccessoryBarVisible({
+    isVisible: false
+  });
+
+}
+
+  
 
 }
