@@ -35,23 +35,22 @@
 
     // LOGIN
     async login(
-      email: string,
-      password: string
-    ) {
+  email: string,
+  password: string
+) {
 
-      const { data, error } =
-        await this.supabase.auth.signInWithPassword({
-          email,
-          password
-        });
+  const response =
+    await this.supabase.auth
+      .signInWithPassword({
 
-      if (error) {
-        console.log(error);
-        throw error;
-      }
+        email,
+        password
 
-      return data;
-    }
+      });
+
+  return response;
+
+}
 
     // REGISTER
     async register(

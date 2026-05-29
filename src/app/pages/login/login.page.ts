@@ -70,46 +70,38 @@ export class LoginPage implements OnInit {
   // LOGIN
   async login() {
 
-    try {
+  console.log('LOGIN START');
 
+  try {
+
+    const response =
       await this.supabaseService.login(
         this.email,
         this.password
       );
 
-      await this.showToast(
-        'Inicio de sesión correcto 🎮',
-        'success'
-      );
+    console.log(response);
 
-      this.router.navigate(['/tabs/tab1']);
+    if(response.error) {
 
-    } catch (err: any) {
+      alert(response.error.message);
 
-      await this.showToast(
-        err.message,
-        'danger'
-      );
+      return;
 
     }
 
-     try {
+    alert('LOGIN OK');
+    this.router.navigateByUrl('/tabs/tab1');
 
-    const result =
-      await this.supabaseService.login(
-        this.email,
-        this.password
-      );
+  } catch(err) {
 
-    console.log(result);
+    console.log(err);
 
-  } catch(error) {
-
-    console.log(error);
+    alert(JSON.stringify(err));
 
   }
 
-  }
+}
 
   ngOnInit() {
 
