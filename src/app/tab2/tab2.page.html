@@ -1,9 +1,13 @@
 <ion-header class="ion-no-border">
+
   <ion-toolbar class="posts-toolbar">
+
     <ion-title class="posts-toolbar-title">
       Publicaciones
     </ion-title>
+
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content class="posts-content">
@@ -15,95 +19,108 @@
     <div class="blob blob-2"></div>
   </div>
 
-  <!-- Contenido -->
+  <!-- Publicaciones -->
   <div class="posts-wrapper">
 
-    <!-- Card -->
-    <div class="post-card">
+    <div
+      class="post-card"
+      *ngFor="let encuesta of encuestas">
 
+      <!-- Imagen -->
       <div class="post-image-wrapper">
+
         <img
-          src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop"
+
+          *ngIf="encuesta.imagen"
+
+          [src]="encuesta.imagen"
+
           alt="Videojuego"
+
           class="post-image"
+
         />
 
         <div class="game-badge">
-          🎮 Fortnite
+
+          🎮
+          {{ encuesta.videojuego?.titulo }}
+
         </div>
+
       </div>
 
+      <!-- Body -->
       <div class="post-body">
 
+        <!-- Usuario -->
         <div class="user-row">
+
           <div class="user-avatar">
-            <ion-icon name="person-outline"></ion-icon>
+
+            <ion-icon
+              name="person-outline">
+            </ion-icon>
+
           </div>
 
           <div class="user-info">
-            <span class="user-name">ShadowPlayer</span>
-            <span class="post-date">29 Mayo 2026</span>
+
+            <span class="user-name">
+
+              {{ encuesta.nombre }}
+
+            </span>
+
+            <span class="post-date">
+
+              {{ encuesta.fecha }}
+
+            </span>
+
           </div>
+
         </div>
 
+        <!-- Información -->
         <div class="post-info">
 
           <div class="info-item">
-            <ion-icon name="location-outline"></ion-icon>
-            <span>Quito, Ecuador</span>
+
+            <ion-icon
+              name="location-outline">
+            </ion-icon>
+
+            <span>
+
+              {{ encuesta.latitud }},
+              {{ encuesta.longitud }}
+
+            </span>
+
           </div>
-
-        </div>
-
-        <p class="post-comment">
-          Uno de mis videojuegos favoritos actualmente.
-          Los gráficos y la jugabilidad son increíbles 🔥
-        </p>
-
-      </div>
-
-    </div>
-
-    <!-- Card -->
-    <div class="post-card">
-
-      <div class="post-image-wrapper">
-        <img
-          src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop"
-          alt="Videojuego"
-          class="post-image"
-        />
-
-        <div class="game-badge">
-          🎮 Call of Duty
-        </div>
-      </div>
-
-      <div class="post-body">
-
-        <div class="user-row">
-          <div class="user-avatar">
-            <ion-icon name="person-outline"></ion-icon>
-          </div>
-
-          <div class="user-info">
-            <span class="user-name">DarkGhost</span>
-            <span class="post-date">28 Mayo 2026</span>
-          </div>
-        </div>
-
-        <div class="post-info">
 
           <div class="info-item">
-            <ion-icon name="location-outline"></ion-icon>
-            <span>Guayaquil, Ecuador</span>
+
+            <ion-icon
+              name="game-controller-outline">
+            </ion-icon>
+
+            <span>
+
+              {{ encuesta.videojuego?.genero }}
+
+            </span>
+
           </div>
 
         </div>
 
+        <!-- Comentario -->
         <p class="post-comment">
-          Juego competitivo muy bueno para jugar con amigos.
-          El modo online está brutal 🎯
+
+          {{ encuesta.comentario }}
+
         </p>
 
       </div>

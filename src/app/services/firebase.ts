@@ -5,7 +5,8 @@ import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
   collection,
-  addDoc
+  addDoc,
+  getDocs 
 } from 'firebase/firestore';
 
 import {
@@ -61,6 +62,27 @@ export class FirebaseService {
     }
 
   }
+
+  // OBTENER ENCUESTAS
+async getSurveys() {
+  try {
+
+    const querySnapshot = await getDocs(
+      collection(this.db, 'encuestas')
+    );
+
+    const encuestas = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    return encuestas;
+
+  } catch(error) {
+    console.log(error);
+    throw error;
+  }
+}
 
   async uploadImage(imageBase64: string) {
 
