@@ -78,124 +78,160 @@
           Visitante
         </ion-select-option>
 
-
       </ion-select>
     </ion-item>
 
     <!-- VIDEOJUEGO -->
     <ion-item class="custom-item">
-  <ion-input
-    label="Videojuego Favorito">
-  </ion-input>
-</ion-item>
+      <ion-input
+        label="Videojuego Favorito">
+      </ion-input>
+    </ion-item>
 
-    <!-- PLATAFORMA -->
     <!-- BUSQUEDA -->
-<ion-item class="custom-item">
+    <ion-item class="custom-item">
+      <ion-input
+        label="Buscar Videojuego"
+        labelPlacement="floating"
+        [(ngModel)]="searchTerm"
+        (ionInput)="searchGame()">
+      </ion-input>
+    </ion-item>
 
-  <ion-input
-    label="Buscar Videojuego"
-    labelPlacement="floating"
-    [(ngModel)]="searchTerm"
-    (ionInput)="searchGame()">
-  </ion-input>
+    <!-- RESULTADOS -->
+    <div
+      class="game-list"
+      *ngIf="filteredGames.length > 0">
 
-</ion-item>
+      <div
+        class="game-card"
+        *ngFor="let game of filteredGames"
+        (click)="selectGame(game)">
 
-<!-- RESULTADOS -->
-<div
-  class="game-list"
-  *ngIf="filteredGames.length > 0">
+        <img [src]="game.thumbnail">
 
-  <div
-    class="game-card"
-    *ngFor="let game of filteredGames"
-    (click)="selectGame(game)">
+        <div>
+          <h3>{{ game.title }}</h3>
+          <p>{{ game.genre }}</p>
+        </div>
 
-    <img
-      [src]="game.thumbnail">
+      </div>
 
-    <div>
-
-      <h3>
-        {{ game.title }}
-      </h3>
-
-      <p>
-        {{ game.genre }}
-      </p>
+      <!-- OPCIÓN OTRO al final de resultados -->
+      <div class="game-card game-card-otro" (click)="selectOtro()">
+        <div class="otro-icon">✏️</div>
+        <div>
+          <h3>No encuentro mi juego</h3>
+          <p>Ingresar manualmente</p>
+        </div>
+      </div>
 
     </div>
 
-  </div>
+    <!-- SIN RESULTADOS + botón ingresar manualmente -->
+    <div
+      class="no-results"
+      *ngIf="searchTerm.length > 2 && filteredGames.length === 0 && !isOtro && !selectedGame">
+      <p>😕 No se encontró "{{ searchTerm }}"</p>
+      <button class="btn-ingresar-manual" (click)="selectOtro()">
+        ✏️ Ingresar manualmente
+      </button>
+    </div>
 
-</div>
+    <!-- JUEGO SELECCIONADO DESDE API -->
+    <div
+      class="selected-game"
+      *ngIf="selectedGame && !isOtro">
 
-<div
-  class="selected-game"
-  *ngIf="selectedGame">
+      <img [src]="selectedGame.thumbnail">
+      <h2>{{ selectedGame.title }}</h2>
+      <p>{{ selectedGame.genre }}</p>
+      <p>{{ selectedGame.platform }}</p>
+      <p>{{ selectedGame.short_description }}</p>
 
-  <img
-    [src]="selectedGame.thumbnail">
+    </div>
 
-  <h2>
-    {{ selectedGame.title }}
-  </h2>
+    <!-- MODO OTRO: ingreso manual -->
+    <div class="otro-section" *ngIf="isOtro">
 
-  <p>
-    {{ selectedGame.genre }}
-  </p>
+      <div class="otro-header">
+        <span class="otro-badge">✏️ Ingreso manual</span>
+        <button class="otro-cancel" (click)="cancelOtro()">✕ Cancelar</button>
+      </div>
 
-  <p>
-    {{ selectedGame.platform }}
-  </p>
+      <!-- NOMBRE MANUAL -->
+      <ion-item class="custom-item">
+        <ion-input
+          label="Nombre del videojuego"
+          labelPlacement="floating"
+          [(ngModel)]="otroJuego">
+        </ion-input>
+      </ion-item>
 
-  <p>
-    {{ selectedGame.short_description }}
-  </p>
+      <!-- GÉNERO MANUAL -->
+      <ion-item class="custom-item">
+        <ion-select
+          label="Género"
+          labelPlacement="floating"
+          [(ngModel)]="otroGenero">
+          <ion-select-option value="accion">Acción</ion-select-option>
+          <ion-select-option value="aventura">Aventura</ion-select-option>
+          <ion-select-option value="deportes">Deportes</ion-select-option>
+          <ion-select-option value="estrategia">Estrategia</ion-select-option>
+          <ion-select-option value="rpg">RPG</ion-select-option>
+          <ion-select-option value="terror">Terror</ion-select-option>
+          <ion-select-option value="simulacion">Simulación</ion-select-option>
+          <ion-select-option value="shooter">Shooter</ion-select-option>
+          <ion-select-option value="otro">Otro</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-</div>
+      <!-- PLATAFORMA MANUAL -->
+      <ion-item class="custom-item">
+        <ion-select
+          label="Plataforma"
+          labelPlacement="floating"
+          [(ngModel)]="otraPlataforma">
+          <ion-select-option value="movil">Móvil</ion-select-option>
+          <ion-select-option value="consola">Consola</ion-select-option>
+          <ion-select-option value="pc">PC</ion-select-option>
+          <ion-select-option value="navegador">Navegador</ion-select-option>
+        </ion-select>
+      </ion-item>
 
+    </div>
 
     <!-- FOTO -->
-<div class="photo-section">
+    <div class="photo-section">
 
-  <h2>
-    Imagen de tu setup o juego
-  </h2>
+      <h2>
+        Imagen de tu setup o juego
+      </h2>
 
-  <div class="photo-buttons">
+      <div class="photo-buttons">
 
-    <ion-button
-      color="primary"
-      (click)="takePhoto()">
+        <ion-button
+          color="primary"
+          (click)="takePhoto()">
+          Tomar Foto
+        </ion-button>
 
-      Tomar Foto
+        <ion-button
+          color="secondary"
+          (click)="selectPhoto()">
+          Galería
+        </ion-button>
 
-    </ion-button>
+      </div>
 
-    <ion-button
-      color="secondary"
-      (click)="selectPhoto()">
+      <!-- PREVIEW -->
+      <div
+        class="photo-preview"
+        *ngIf="selectedPhoto">
+        <ion-img [src]="selectedPhoto"></ion-img>
+      </div>
 
-      Galería
-
-    </ion-button>
-
-  </div>
-
-  <!-- PREVIEW -->
-  <div
-    class="photo-preview"
-    *ngIf="selectedPhoto">
-
-    <ion-img
-      [src]="selectedPhoto">
-    </ion-img>
-
-  </div>
-
-</div>
+    </div>
 
     <!-- COMENTARIO -->
     <ion-item class="custom-item textarea-item">
@@ -213,11 +249,8 @@
       expand="block"
       (click)="guardarEncuesta()"
       class="gaming-button">
-
       Registrar Encuesta
-
     </ion-button>
-
 
   </div>
 

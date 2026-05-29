@@ -49,6 +49,7 @@ import {
 })
 
 export class Tab1Page implements OnInit {
+
   constructor(
     private firebaseService: FirebaseService,
     private gameService: GameService,
@@ -57,142 +58,155 @@ export class Tab1Page implements OnInit {
   ) {}
 
   games: any[] = [];
-
   filteredGames: any[] = [];
-
   selectedGame: any = null;
-
   searchTerm: string = '';
-
   latitud: number = 0;
-
   longitud: number = 0;
-
   fecha: string = '';
-
   nombre: string = '';
-
   edad: number | null = null;
-
   rol: string = '';
-
   comentario: string = '';
-
   selectedPhoto: string = '';
-
   selectedPhotoBase64: string = '';
 
-  
+  // ── Variables modo Otro ────────────────────────
+  isOtro: boolean = false;
+  otroJuego: string = '';
+  otroGenero: string = '';
+  otraPlataforma: string = '';
+
+  // ── Activar modo Otro ──────────────────────────
+  selectOtro() {
+    this.isOtro = true;
+    this.selectedGame = null;
+    this.filteredGames = [];
+    this.searchTerm = '';
+  }
+
+  // ── Cancelar modo Otro ─────────────────────────
+  cancelOtro() {
+    this.isOtro = false;
+    this.otroJuego = '';
+    this.otroGenero = '';
+    this.otraPlataforma = '';
+  }
 
   async guardarEncuesta() {
 
-  if(!this.selectedGame) {
+    // Validación según modo
+    if (!this.isOtro && !this.selectedGame) {
+      alert('Selecciona un juego o usa "Ingresar manualmente"');
+      return;
+    }
 
-    alert('Selecciona un juego');
+    if (this.isOtro && !this.otroJuego.trim()) {
+      alert('Escribe el nombre del videojuego');
+      return;
+    }
 
-    return;
+    if (this.isOtro && !this.otroGenero) {
+      alert('Selecciona el género');
+      return;
+    }
 
-  }
+    if (this.isOtro && !this.otraPlataforma) {
+      alert('Selecciona la plataforma');
+      return;
+    }
 
-  let imageUrl = '';
+    let imageUrl = '';
 
-  if(this.selectedPhoto) {
+    if(this.selectedPhoto) {
 
-    imageUrl =
+      imageUrl =
+        await this.firebaseService
+          .uploadImage(this.selectedPhoto);
+
+      // Guardar URL real de Firebase
+      this.selectedPhoto = imageUrl;
+
+    }
+
+    try {
+
+      const encuesta = {
+
+        nombre: this.nombre,
+
+        edad: this.edad,
+
+        rol: this.rol,
+
+        comentario: this.comentario,
+
+        // Objeto videojuego según modo
+        videojuego: this.isOtro
+          ? {
+              id: null,
+              titulo: this.otroJuego,
+              genero: this.otroGenero,
+              plataforma: this.otraPlataforma,
+              descripcion: 'Ingresado manualmente'
+            }
+          : {
+              id: this.selectedGame.id,
+              titulo: this.selectedGame.title,
+              genero: this.selectedGame.genre,
+              plataforma: this.selectedGame.platform,
+              descripcion: this.selectedGame.short_description
+            },
+
+        imagen: imageUrl,
+
+        latitud: this.latitud,
+
+        longitud: this.longitud,
+
+        fecha: this.fecha
+
+      };
+
       await this.firebaseService
-        .uploadImage(this.selectedPhoto);
+        .saveSurvey(encuesta);
 
-    // Guardar URL real de Firebase
-    this.selectedPhoto = imageUrl;
+      console.log('Encuesta guardada');
 
-  }
+      alert('Encuesta guardada correctamente 🎮');
 
-  try {
+      // Limpiar formulario
+      this.nombre = '';
+      this.edad = null;
+      this.rol = '';
+      this.comentario = '';
+      this.searchTerm = '';
+      this.selectedGame = null;
+      this.selectedPhoto = '';
+      this.isOtro = false;
+      this.otroJuego = '';
+      this.otroGenero = '';
+      this.otraPlataforma = '';
 
-    const encuesta = {
+      // Actualizar fecha
+      this.getDateTime();
 
-      nombre: this.nombre,
+    } catch(error) {
 
-      edad: this.edad,
+      console.log(error);
 
-      rol: this.rol,
+      alert('Error al guardar encuesta');
 
-      comentario: this.comentario,
-
-      videojuego: {
-
-        id: this.selectedGame.id,
-
-        titulo: this.selectedGame.title,
-
-        genero: this.selectedGame.genre,
-
-        plataforma: this.selectedGame.platform,
-
-        descripcion:
-          this.selectedGame.short_description
-
-      },
-
-      imagen: imageUrl,
-
-      latitud: this.latitud,
-
-      longitud: this.longitud,
-
-      fecha: this.fecha
-
-    };
-
-    await this.firebaseService
-      .saveSurvey(encuesta);
-
-    console.log(
-      'Encuesta guardada'
-    );
-
-    // Mensaje
-    alert(
-      'Encuesta guardada correctamente 🎮'
-    );
-
-    // Limpiar formulario
-    this.nombre = '';
-
-    this.edad = null;
-
-    this.rol = '';
-
-    this.comentario = '';
-
-    this.searchTerm = '';
-
-    this.selectedGame = null;
-
-    this.selectedPhoto = '';
-
-    // Actualizar fecha
-    this.getDateTime();
-
-  } catch(error) {
-
-    console.log(error);
-
-    alert(
-      'Error al guardar encuesta'
-    );
+    }
 
   }
-
-}
 
   searchGame() {
 
     if(this.searchTerm.trim() === '') {
-
       this.filteredGames = [];
+      this.isOtro = false;
       return;
-
     }
 
     this.gameService.searchGames(
@@ -202,13 +216,11 @@ export class Tab1Page implements OnInit {
 
       this.filteredGames =
         data.filter(game =>
-
           game.title
             .toLowerCase()
             .includes(
               this.searchTerm.toLowerCase()
             )
-
         ).slice(0, 10);
 
     });
@@ -217,152 +229,106 @@ export class Tab1Page implements OnInit {
 
   selectGame(game: any) {
 
-  this.selectedGame = game;
+    this.selectedGame = game;
+    this.searchTerm = game.title;
+    this.filteredGames = [];
+    this.isOtro = false;
 
-  this.searchTerm = game.title;
+  }
 
-  this.filteredGames = [];
+  async getLocation() {
 
-}
+    try {
 
-async getLocation() {
-
-  try {
-
-    // Pedir permisos
-    await this.locationService
-      .ensurePermissions();
-
-    // Obtener ubicación
-    const position =
       await this.locationService
-        .getCurrentPosition();
+        .ensurePermissions();
 
-    this.latitud =
-      position.coords.latitude;
+      const position =
+        await this.locationService
+          .getCurrentPosition();
 
-    this.longitud =
-      position.coords.longitude;
+      this.latitud =
+        position.coords.latitude;
 
-    console.log(
-      this.latitud,
-      this.longitud
-    );
+      this.longitud =
+        position.coords.longitude;
 
-  } catch(error) {
+      console.log(this.latitud, this.longitud);
 
-    console.log(error);
+    } catch(error) {
+
+      console.log(error);
+
+    }
 
   }
 
-}
+  async takePhoto() {
 
-async takePhoto() {
+    try {
 
-  try {
+      await this.photoService
+        .addNewToGallery();
 
-    await this.photoService
-      .addNewToGallery();
+      const photo: any =
+        this.photoService.photos[0];
 
-    const photo: any =
-      this.photoService.photos[0];
+      if(photo?.webviewPath) {
+        this.selectedPhoto = photo.webviewPath;
+      }
 
-    if(photo?.webviewPath) {
+      if(photo?.base64String) {
+        this.selectedPhoto =
+          `data:image/jpeg;base64,${photo.base64String}`;
+      }
 
-      this.selectedPhoto =
-        photo.webviewPath;
+    } catch(error) {
+
+      console.log(error);
 
     }
-
-    if(photo?.base64String) {
-
-      this.selectedPhoto =
-        `data:image/jpeg;base64,${photo.base64String}`;
-
-    }
-
-  } catch(error) {
-
-    console.log(error);
 
   }
 
-}
+  async selectPhoto() {
 
-async selectPhoto() {
+    try {
 
-  try {
+      await this.photoService
+        .selectFromGallery();
 
-    await this.photoService
-      .selectFromGallery();
+      const photo: any =
+        this.photoService.photos[0];
 
-    const photo: any =
-      this.photoService.photos[0];
+      if(photo?.webviewPath) {
+        this.selectedPhoto = photo.webviewPath;
+      }
 
-    if(photo?.webviewPath) {
+      if(photo?.base64String) {
+        this.selectedPhoto =
+          `data:image/jpeg;base64,${photo.base64String}`;
+      }
 
-      this.selectedPhoto =
-        photo.webviewPath;
+    } catch(error) {
+
+      console.log(error);
 
     }
-
-    if(photo?.base64String) {
-
-      this.selectedPhoto =
-        `data:image/jpeg;base64,${photo.base64String}`;
-
-    }
-
-  } catch(error) {
-
-    console.log(error);
 
   }
 
-}
+  getDateTime() {
 
-/* async imageToBase64(imageUrl: string) {
+    const now = new Date();
+    this.fecha = now.toLocaleString();
 
-  const response =
-    await fetch(imageUrl);
+  }
 
-  const blob =
-    await response.blob();
+  ngOnInit() {
 
-  return await new Promise<string>((resolve) => {
+    this.getLocation();
+    this.getDateTime();
 
-    const reader =
-      new FileReader();
-
-    reader.onloadend = () => {
-
-      resolve(
-        reader.result as string
-      );
-
-    };
-
-    reader.readAsDataURL(blob);
-
-  });
-
-} */
-
-getDateTime() {
-
-  const now = new Date();
-
-  this.fecha =
-    now.toLocaleString();
-
-}
-
-ngOnInit() {
-
-  this.getLocation();
-
-  this.getDateTime();
-
-}
+  }
 
 }
