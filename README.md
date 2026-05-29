@@ -224,3 +224,5 @@ GitHub: https://github.com/DiegoM-Hack
 Repositorio: https://github.com/DiegoM-Hack/GameApp
 
 Link APK: https://github.com/DiegoM-Hack/GameApp/releases/tag/APK
+
+Hostitng: https://app-gamer-77b9f.web.app/tabs/tab4
