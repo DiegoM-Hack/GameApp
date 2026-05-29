@@ -80,32 +80,32 @@ export class Tab1Page implements OnInit {
 
   selectedPhoto: string = '';
 
+  selectedPhotoBase64: string = '';
+
   
 
   async guardarEncuesta() {
 
-    if(!this.selectedGame) {
+  if(!this.selectedGame) {
 
-  alert('Selecciona un juego');
+    alert('Selecciona un juego');
 
-  return;
+    return;
 
-}
+  }
 
   let imageUrl = '';
 
-if(this.selectedPhoto) {
+  if(this.selectedPhoto) {
 
-  const base64Image =
-    await this.imageToBase64(
-      this.selectedPhoto
-    );
+    imageUrl =
+      await this.firebaseService
+        .uploadImage(this.selectedPhoto);
 
-  imageUrl =
-    await this.firebaseService
-      .uploadImage(base64Image);
+    // Guardar URL real de Firebase
+    this.selectedPhoto = imageUrl;
 
-}
+  }
 
   try {
 
@@ -151,9 +151,36 @@ if(this.selectedPhoto) {
       'Encuesta guardada'
     );
 
+    // Mensaje
+    alert(
+      'Encuesta guardada correctamente 🎮'
+    );
+
+    // Limpiar formulario
+    this.nombre = '';
+
+    this.edad = null;
+
+    this.rol = '';
+
+    this.comentario = '';
+
+    this.searchTerm = '';
+
+    this.selectedGame = null;
+
+    this.selectedPhoto = '';
+
+    // Actualizar fecha
+    this.getDateTime();
+
   } catch(error) {
 
     console.log(error);
+
+    alert(
+      'Error al guardar encuesta'
+    );
 
   }
 
@@ -232,27 +259,69 @@ async getLocation() {
 
 async takePhoto() {
 
-  await this.photoService
-    .addNewToGallery();
+  try {
 
-  this.selectedPhoto =
-    this.photoService.photos[0]
-      .webviewPath || '';
+    await this.photoService
+      .addNewToGallery();
+
+    const photo: any =
+      this.photoService.photos[0];
+
+    if(photo?.webviewPath) {
+
+      this.selectedPhoto =
+        photo.webviewPath;
+
+    }
+
+    if(photo?.base64String) {
+
+      this.selectedPhoto =
+        `data:image/jpeg;base64,${photo.base64String}`;
+
+    }
+
+  } catch(error) {
+
+    console.log(error);
+
+  }
 
 }
 
 async selectPhoto() {
 
-  await this.photoService
-    .selectFromGallery();
+  try {
 
-  this.selectedPhoto =
-    this.photoService.photos[0]
-      .webviewPath || '';
+    await this.photoService
+      .selectFromGallery();
+
+    const photo: any =
+      this.photoService.photos[0];
+
+    if(photo?.webviewPath) {
+
+      this.selectedPhoto =
+        photo.webviewPath;
+
+    }
+
+    if(photo?.base64String) {
+
+      this.selectedPhoto =
+        `data:image/jpeg;base64,${photo.base64String}`;
+
+    }
+
+  } catch(error) {
+
+    console.log(error);
+
+  }
 
 }
 
-async imageToBase64(imageUrl: string) {
+/* async imageToBase64(imageUrl: string) {
 
   const response =
     await fetch(imageUrl);
@@ -277,7 +346,7 @@ async imageToBase64(imageUrl: string) {
 
   });
 
-}
+} */
 
 getDateTime() {
 

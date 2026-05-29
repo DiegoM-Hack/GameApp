@@ -16,7 +16,7 @@
         environment.supabaseUrl,
         environment.supabaseKey,
 
-         {
+        {
 
     auth: {
 
