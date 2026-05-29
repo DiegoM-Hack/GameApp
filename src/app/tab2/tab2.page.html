@@ -25,20 +25,20 @@
   <!-- CARD -->
   <div
     class="post-card"
-    *ngFor="let survey of surveys">
+    *ngFor="let encuesta of encuestas">
 
     <!-- IMAGEN -->
     <div class="post-image-wrapper">
 
       <img
-        [src]="survey.imagen || 'assets/default.jpg'"
+        [src]="encuesta.imagen || 'assets/default.jpg'"
         class="post-image"
       />
 
       <div class="game-badge">
 
         🎮
-        {{ survey.videojuego.titulo }}
+        {{ encuesta.videojuego.titulo }}
 
       </div>
 
@@ -62,13 +62,13 @@
 
           <span class="user-name">
 
-            {{ survey.nombre }}
+            {{ encuesta.nombre }}
 
           </span>
 
           <span class="post-date">
 
-            {{ survey.fecha }}
+            {{ encuesta.fecha }}
 
           </span>
 
@@ -87,7 +87,7 @@
 
           <span>
 
-            {{ survey.lugar || 'Campus' }}
+            {{ encuesta.lugar || 'Campus' }}
 
           </span>
 
@@ -98,7 +98,7 @@
       <!-- COMENTARIO -->
       <p class="post-comment">
 
-        {{ survey.comentario }}
+        {{ encuesta.comentario }}
 
       </p>
 
