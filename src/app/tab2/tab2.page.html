@@ -18,98 +18,90 @@
   <!-- Contenido -->
   <div class="posts-wrapper">
 
-    <!-- Card -->
-    <div class="post-card">
+  <!-- CARD -->
+  <div
+    class="post-card"
+    *ngFor="let survey of surveys">
 
-      <div class="post-image-wrapper">
-        <img
-          src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop"
-          alt="Videojuego"
-          class="post-image"
-        />
+    <!-- IMAGEN -->
+    <div class="post-image-wrapper">
 
-        <div class="game-badge">
-          🎮 Fortnite
-        </div>
-      </div>
+      <img
+        [src]="survey.imagen || 'assets/default.jpg'"
+        class="post-image"
+      />
 
-      <div class="post-body">
+      <div class="game-badge">
 
-        <div class="user-row">
-          <div class="user-avatar">
-            <ion-icon name="person-outline"></ion-icon>
-          </div>
-
-          <div class="user-info">
-            <span class="user-name">ShadowPlayer</span>
-            <span class="post-date">29 Mayo 2026</span>
-          </div>
-        </div>
-
-        <div class="post-info">
-
-          <div class="info-item">
-            <ion-icon name="location-outline"></ion-icon>
-            <span>Quito, Ecuador</span>
-          </div>
-
-        </div>
-
-        <p class="post-comment">
-          Uno de mis videojuegos favoritos actualmente.
-          Los gráficos y la jugabilidad son increíbles 🔥
-        </p>
+        🎮
+        {{ survey.videojuego.titulo }}
 
       </div>
 
     </div>
 
-    <!-- Card -->
-    <div class="post-card">
+    <!-- BODY -->
+    <div class="post-body">
 
-      <div class="post-image-wrapper">
-        <img
-          src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop"
-          alt="Videojuego"
-          class="post-image"
-        />
+      <!-- USER -->
+      <div class="user-row">
 
-        <div class="game-badge">
-          🎮 Call of Duty
+        <div class="user-avatar">
+
+          <ion-icon
+            name="person-outline">
+          </ion-icon>
+
         </div>
+
+        <div class="user-info">
+
+          <span class="user-name">
+
+            {{ survey.nombre }}
+
+          </span>
+
+          <span class="post-date">
+
+            {{ survey.fecha }}
+
+          </span>
+
+        </div>
+
       </div>
 
-      <div class="post-body">
+      <!-- INFO -->
+      <div class="post-info">
 
-        <div class="user-row">
-          <div class="user-avatar">
-            <ion-icon name="person-outline"></ion-icon>
-          </div>
+        <div class="info-item">
 
-          <div class="user-info">
-            <span class="user-name">DarkGhost</span>
-            <span class="post-date">28 Mayo 2026</span>
-          </div>
-        </div>
+          <ion-icon
+            name="location-outline">
+          </ion-icon>
 
-        <div class="post-info">
+          <span>
 
-          <div class="info-item">
-            <ion-icon name="location-outline"></ion-icon>
-            <span>Guayaquil, Ecuador</span>
-          </div>
+            {{ survey.lugar || 'Campus' }}
+
+          </span>
 
         </div>
-
-        <p class="post-comment">
-          Juego competitivo muy bueno para jugar con amigos.
-          El modo online está brutal 🎯
-        </p>
 
       </div>
+
+      <!-- COMENTARIO -->
+      <p class="post-comment">
+
+        {{ survey.comentario }}
+
+      </p>
 
     </div>
 
   </div>
+
+</div>
 
 </ion-content>
